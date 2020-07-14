@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
-//modified : 20200714
+
+import javax.swing.text.html.Option;
+import java.util.Optional;
+
 @Service
 public class PolicyHandler{
     @StreamListener(KafkaProcessor.INPUT)
@@ -21,22 +24,33 @@ public class PolicyHandler{
     public void wheneverOrderCanceled_ProductChange(@Payload OrderCanceled orderCanceled){
 
         if(orderCanceled.isMe()){
-            Product product = new Product();
-            product.setId(orderCanceled.getId());
-            product.setAmount(product.getAmount() != null ? product.getAmount().intValue()+1 : 0 );
-            productRepository.save(product);
-            System.out.println("##### listener wheneverOrderCanceled_ProductChange : " + orderCanceled.toJson());
+            Product product = null;
+            Optional<Product> optional = productRepository.findById(orderCanceled.getProductId());
+            if(optional.isPresent()) {
+                product = optional.get();
+                product.setId(orderCanceled.getProductId());
+                product.setAmount(product.getAmount() != null ? product.getAmount().intValue() + 1 : 0);
+                productRepository.save(product);
+                System.out.println("##### listener wheneverOrderCanceled_ProductChange : " + orderCanceled.toJson());
+            }else
+                System.out.println("##### listener wheneverOrderCanceled_ProductChange : null ");
         }
     }
     @StreamListener(KafkaProcessor.INPUT)
     public void wheneverOrdered_ProductChange(@Payload Ordered ordered){
 
         if(ordered.isMe()){
-            Product product = new Product();
-            product.setId(ordered.getId());
-            product.setAmount(product.getAmount() != null ? product.getAmount().intValue()-1 : 0 );
-            productRepository.save(product);
-            System.out.println("##### listener wheneverOrdered_ProductChange : " + ordered.toJson());
+            Product product = null;
+            Optional<Product> optional = productRepository.findById(ordered.getProductId());
+            if(optional.isPresent()) {
+                product = optional.get();
+
+                product.setId(ordered.getProductId());
+                product.setAmount(product.getAmount() != null ? product.getAmount().intValue() - 1 : 0);
+                productRepository.save(product);
+                System.out.println("##### listener wheneverOrdered_ProductChange : " + ordered.toJson());
+            }else
+                System.out.println("##### listener wheneverOrdered_ProductChange : null ");
         }
     }
 
