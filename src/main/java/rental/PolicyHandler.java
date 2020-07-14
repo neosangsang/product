@@ -23,7 +23,7 @@ public class PolicyHandler{
         if(orderCanceled.isMe()){
             Product product = new Product();
             product.setId(orderCanceled.getId());
-            product.setAmount(Integer.parseInt(""+product.getAmount())+1);
+            product.setAmount(product.getAmount() != null ? product.getAmount().intValue()+1 : 0 );
             productRepository.save(product);
             System.out.println("##### listener wheneverOrderCanceled_ProductChange : 11" + orderCanceled.toJson());
         }
@@ -34,7 +34,7 @@ public class PolicyHandler{
         if(ordered.isMe()){
             Product product = new Product();
             product.setId(ordered.getId());
-            product.setAmount(Integer.parseInt(""+product.getAmount())-1);
+            product.setAmount(product.getAmount() != null ? product.getAmount().intValue()-1 : 0 );
             productRepository.save(product);
             System.out.println("##### listener wheneverOrdered_ProductChange : " + ordered.toJson());
         }
