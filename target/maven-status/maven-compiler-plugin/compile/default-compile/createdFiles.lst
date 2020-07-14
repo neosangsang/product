@@ -1,0 +1,12 @@
+rental\OrderCanceled.class
+rental\ProductApplication.class
+rental\ProductRegistered.class
+rental\Ordered.class
+rental\ProductController.class
+rental\PolicyHandler.class
+rental\ProductChanged.class
+rental\AbstractEvent$1.class
+rental\ProductRepository.class
+rental\AbstractEvent.class
+rental\config\kafka\KafkaProcessor.class
+rental\Product.class
