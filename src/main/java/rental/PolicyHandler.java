@@ -25,7 +25,7 @@ public class PolicyHandler{
             product.setId(orderCanceled.getId());
             product.setAmount(Integer.parseInt(""+product.getAmount())+1);
             productRepository.save(product);
-            System.out.println("##### listener wheneverOrderCanceled_ProductChange : " + orderCanceled.toJson());
+            System.out.println("##### listener wheneverOrderCanceled_ProductChange : 11" + orderCanceled.toJson());
         }
     }
     @StreamListener(KafkaProcessor.INPUT)
