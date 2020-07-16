@@ -57,8 +57,8 @@ spring:
       bindings:
         event-in:
           group: product
-          destination: rental2
+          destination: rental3
           contentType: application/json
         event-out:
-          destination: rental2
+          destination: rental3
           contentType: application/json
